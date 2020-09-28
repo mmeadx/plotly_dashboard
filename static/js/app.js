@@ -19,13 +19,29 @@ function updateAll() {
 // Function to build out "Demographic Info Box"
 function buildDemo(info){
     d3.json("/samples.json").then((meta) => {
-        var metadata = meta.metadata;
-        console.log("buildDemo Function Running");
-    })
-};
+
+        var data = meta.metadata[0]; // NEED AN UNPACKING FUNCTION
+        console.log(data);
+
+        // Use D3 to select Demographic Panel to put sample info
+        var demoPanel = d3.select("#sample-metadata");
+
+        // Clear any existing info in panel
+        demoPanel.html("");
+
+        Object.entries(selectedData).forEach(([key, value]) => {
+            demoPanel.append("h5").text(`${key}:${value}`);
+        })
+        // TEST TO BE SURE WE'RE GETTING CORRECT DATASET VALUE
+        console.log("buildDemo Function Running"); 
+        console.log(`metadata of ${info}`);
+    });
+    };
 
 function buildPlots(info){
     console.log("buildPlots Function Running");
+    console.log(`sample data of ${info}`);
+    
 };
 
 // INITIALIZE FUNCTION
@@ -47,8 +63,9 @@ function init() {
 
         // Initialize first sample data to build first plots
         var firstData = names[0];
-        buildPlots(firstData);
         buildDemo(firstData);
+        buildPlots(firstData);
+        
 
     });
 };
