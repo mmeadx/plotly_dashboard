@@ -18,7 +18,7 @@ function updateAll() {
 // DEMOGRAPHIC BUILD OUT FUNCTION 
 // Function to build out "Demographic Info Box"
 function buildDemo(info){
-    d3.json("/samples.json").then((meta) => {
+    d3.json("samples.json").then((meta) => {
 
         console.log(`buildDemo function running with: ${info}`);
 
@@ -52,7 +52,7 @@ function init() {
     var select = d3.select("#selDataset");
 
     // Use list of names to populate options
-    d3.json("/samples.json").then((navel) => {
+    d3.json("samples.json").then((navel) => {
         var names = navel.names;
         console.log("NAMES TO BE ADDED TO DROPDOWN:")
         console.log(names);
