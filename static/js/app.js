@@ -20,27 +20,28 @@ function updateAll() {
 function buildDemo(info){
     d3.json("/samples.json").then((meta) => {
 
-        var data = meta.metadata[0]; // NEED AN UNPACKING FUNCTION
-        console.log(data);
+        console.log(`buildDemo function running with: ${info}`);
 
-        // Use D3 to select Demographic Panel to put sample info
-        var demoPanel = d3.select("#sample-metadata");
+        var sampleData = meta.metadata;
+        console.log(sampleData);
+        var selectedData = meta.metadata.filter(x => x.id === info); // NEED AN UNPACKING FUNCTION?
+        console.log(selectedData);
 
-        // Clear any existing info in panel
-        demoPanel.html("");
+    //     // Use D3 to select Demographic Panel to put sample info
+    //     var demoPanel = d3.select("#sample-metadata");
 
-        Object.entries(selectedData).forEach(([key, value]) => {
-            demoPanel.append("h5").text(`${key}:${value}`);
-        })
-        // TEST TO BE SURE WE'RE GETTING CORRECT DATASET VALUE
-        console.log("buildDemo Function Running"); 
-        console.log(`metadata of ${info}`);
+    //     // Clear any existing info in panel
+    //     demoPanel.html("");
+
+    //     Object.entries(selectedData).forEach(([key, value]) => {
+    //         demoPanel.append("h6").text(`${key}:${value}`);
+    //     })
     });
     };
 
 function buildPlots(info){
-    console.log("buildPlots Function Running");
-    console.log(`sample data of ${info}`);
+    // console.log("buildPlots Function Running");
+    // console.log(`sample data of ${info}`);
     
 };
 
