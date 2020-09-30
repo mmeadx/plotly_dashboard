@@ -1,7 +1,15 @@
-// console.log("Test"); //Make sure console is connected
+// console.log("Test: app.js"); //Make sure console is connected
 
-//EVENT HANDLER
-// Install Event Handler
+// TEST TO GET ALL DATA
+// d3.json("samples.json").then((data) => {
+//     console.log(data);
+// })
+
+
+
+// EVENT HANDLER
+// Install Event Handler to grab dataset value
+
 d3.selectAll("body").on("change", updateAll);
 
 function updateAll() {
@@ -9,33 +17,33 @@ function updateAll() {
 
     var dataset = dropdownMenu.node().value;
 
-    console.log("updateAll Function Running"); // Test to be sure it's getting correct value
+    console.log("*** updateAll Function Running ***"); // Tell console the function is running
     buildDemo(dataset);
     buildPlots(dataset);
 };
 
 
 // DEMOGRAPHIC BUILD OUT FUNCTION 
-// Function to build out "Demographic Info Box"
+// function to build out demographic box with sample data
+
 function buildDemo(info){
     d3.json("/samples.json").then((meta) => {
 
-        console.log(`buildDemo function running with: ${info}`);
+        console.log("*** buildDemo function running ***"); // Tell console the function is running
+        console.log(`buildDemo : ${info}`);
 
-        var sampleData = meta.metadata;
-        console.log(sampleData);
-        var selectedData = meta.metadata.filter(x => x.id === info); // NEED AN UNPACKING FUNCTION?
-        console.log(selectedData);
+        var selectedData = meta.metadata.filter(x => x.id === parseInt(info));
+        console.log(selectedData[0]);
 
-    //     // Use D3 to select Demographic Panel to put sample info
-    //     var demoPanel = d3.select("#sample-metadata");
+        // Use D3 to select Demographic Panel to put sample info
+        var demoPanel = d3.select("#sample-metadata");
 
-    //     // Clear any existing info in panel
-    //     demoPanel.html("");
+        // Clear any existing info in panel
+        demoPanel.html("");
 
-    //     Object.entries(selectedData).forEach(([key, value]) => {
-    //         demoPanel.append("h6").text(`${key}:${value}`);
-    //     })
+        Object.entries(selectedData[0]).forEach(([key, value]) => {
+            demoPanel.append("h6").text(`${key}:${value}`);
+        })
     });
     };
 
@@ -46,27 +54,31 @@ function buildPlots(info){
 };
 
 // INITIALIZE FUNCTION
-// Initialize a function to set names for the dropdown
+
 function init() {
+
     // Get reference to dropdown select element
     var select = d3.select("#selDataset");
 
     // Use list of names to populate options
     d3.json("/samples.json").then((navel) => {
+        
+        console.log("*** init function running ***"); // Tell console the function is running
         var names = navel.names;
-        console.log("NAMES TO BE ADDED TO DROPDOWN:")
-        console.log(names);
+        
+        // console.log(names); // TEST
 
-        // run through list using forEach and append to 
+        // run through list using forEach and append
+        // use selector to append "option" to dropdown and add name and value
+
         names.forEach((name) => {
-            select.append("option").text(name).property("value", name);
+            select.append("option").text(name).property("value", name); 
         });
 
         // Initialize first sample data to build first plots
         var firstData = names[0];
         buildDemo(firstData);
         buildPlots(firstData);
-        
 
     });
 };
