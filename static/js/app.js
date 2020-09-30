@@ -1,4 +1,4 @@
-// console.log("Test: app.js"); //Make sure console is connected
+console.log("Test: app.js"); //Make sure console is connected
 
 // TEST TO GET ALL DATA
 // d3.json("samples.json").then((data) => {
