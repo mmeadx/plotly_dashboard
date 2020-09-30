@@ -59,14 +59,39 @@ function buildPlots(info){
         // Grab selected Dataset from samples using Subject ID No. from dropdown
         var selectedData = meta.samples.filter(x => x.id === info);
 
+        // ---- BUBBLE CHART ----
+        // Grab variables for Bubble Chart
         var sample_values = selectedData[0].sample_values;
         var otu_ids = selectedData[0].otu_ids;
         var otu_labels = selectedData[0].otu_labels
 
         // console.log(otu_labels); // TEST
+
+        var bubble1 = {
+            x: otu_ids,
+            y: sample_values,
+            mode: 'markers',
+            text: otu_labels,
+            marker: {
+                color: otu_ids,
+                size: sample_values
+            }
+        };
+
+        var data = [bubble1];
+
+        var layout = {
+            title: 'Bubble Chart',
+            height: 600,
+            width: 1200
+        };
+
+        Plotly.newPlot('bubble', data, layout);
+
+        
+
     })
-    // console.log("buildPlots Function Running");
-    // console.log(`sample data of ${info}`);
+
     
 };
 
