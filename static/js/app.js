@@ -100,14 +100,16 @@ function buildPlots(info){
             text: selectedData[0].otu_labels.slice(0,10).reverse(),
             // name: "Sample",
             type: "bar",
-            orientation: "h"
+            orientation: "h",
+            marker: {
+                color: "#FFA84C"
+            }
         };
 
         var barData = [bar1];
 
         var barLayout = {
             title: "Top 10 OTUs Found in Sample",
-            yaxis: {type: 'category'},
             margin: {
                 l: 100,
                 r: 100,
