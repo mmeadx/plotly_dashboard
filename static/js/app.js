@@ -93,11 +93,10 @@ function buildPlots(info){
         // Organize by top 10 OTUs found in individual
 
         // console.log(topTenOtuIDs);
-        var otuIdData = selectedData[0].otu_ids.slice(0,10).reverse();
      
         var bar1 = {
             x: selectedData[0].sample_values.slice(0,10).reverse(),
-            y: otuIdData,
+            y: selectedData[0].otu_ids.slice(0,10).map(otu_id => `OTU ${otu_id}`).reverse(),
             text: selectedData[0].otu_labels.slice(0,10).reverse(),
             // name: "Sample",
             type: "bar",
@@ -106,8 +105,8 @@ function buildPlots(info){
 
         var barData = [bar1];
 
-        var layout = {
-            title: "Top 10 OTUs found in Sample",
+        var barLayout = {
+            title: "Top 10 OTUs Found in Sample",
             yaxis: {type: 'category'},
             margin: {
                 l: 100,
@@ -117,7 +116,7 @@ function buildPlots(info){
               }
         };
 
-        Plotly.newPlot("bar", barData, layout);
+        Plotly.newPlot("bar", barData, barLayout);
 
 
     })
