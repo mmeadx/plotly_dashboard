@@ -21,6 +21,7 @@ function updateAll() {
     console.log("*** updateAll Function Running ***"); // Tell console the function is running
     buildDemo(dataset);
     buildPlots(dataset);
+    buildGuage(dataset);
 };
 
 
@@ -91,18 +92,14 @@ function buildPlots(info){
         // ----- BAR CHART -----
         // Organize by top 10 OTUs found in individual
 
-
-        // var topTenSampleValues = 
-        // var topTenOtuIDs = 
-        // var topTenOtuLabels = selectedData[0].otu_labels.slice(0,10).reverse();
-
         // console.log(topTenOtuIDs);
-
+        var otuIdData = selectedData[0].otu_ids.slice(0,10).reverse();
+     
         var bar1 = {
             x: selectedData[0].sample_values.slice(0,10).reverse(),
-            y: "OTU" + selectedData[0].otu_ids.slice(0,10).reverse(),
+            y: otuIdData,
             text: selectedData[0].otu_labels.slice(0,10).reverse(),
-            name: "Sample",
+            // name: "Sample",
             type: "bar",
             orientation: "h"
         };
@@ -111,6 +108,13 @@ function buildPlots(info){
 
         var layout = {
             title: "Top 10 OTUs found in Sample",
+            yaxis: {type: 'category'},
+            margin: {
+                l: 100,
+                r: 100,
+                t: 100,
+                b: 100
+              }
         };
 
         Plotly.newPlot("bar", barData, layout);
@@ -120,6 +124,50 @@ function buildPlots(info){
 
     
 };
+
+function buildGuage(info) {
+    d3.json("/samples.json").then((meta) => {
+        console.log("*** buildGuage function running ***");
+        
+        var selectedData = meta.metadata.filter(x => x.id === parseInt(info));
+
+        var wfreq = selectedData[0].wfreq;
+        console.log(`WASH FREQUENCY OF : ${wfreq}`);
+
+        var data = [
+            {
+              domain: { x: [0, 1], y: [0, 1] },
+              value: wfreq,
+              title: { text: "Wash Frequency" },
+              type: "indicator",
+              mode: "gauge+number+delta",
+            //   delta: { reference: 380 },
+              gauge: {
+                axis: { range: [null, 9] },
+                steps: [
+                  { range: [0, 1], color: "#FFF2E5"},
+                  { range: [1, 2], color: "#FFE6CC" },
+                  { range: [2, 3], color: "#FFDAB2" },
+                  { range: [3, 4], color: "#FFCD99" },
+                  { range: [4, 5], color: "#FFC17F" },
+                  { range: [5, 6], color: "#FFB566" },
+                  { range: [6, 7], color: "#FFA84C" },
+                  { range: [7, 8], color: "#FF9C33" },
+                  { range: [8, 9], color: "#FF9019" }
+                ],
+                threshold: {
+                  line: { color: "red", width: 4 },
+                  thickness: 0.75,
+                  value: 9
+                }
+              }
+            }
+          ];
+          
+          var layout = { width: 600, height: 450, margin: { t: 0, b: 0 } };
+          Plotly.newPlot('gauge', data, layout);
+    })
+}
 
 // INITIALIZE FUNCTION
 
@@ -147,6 +195,7 @@ function init() {
         var firstData = names[0];
         buildDemo(firstData);
         buildPlots(firstData);
+        buildGuage(firstData);
 
     });
 };
