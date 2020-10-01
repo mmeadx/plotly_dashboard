@@ -29,7 +29,7 @@ function updateAll() {
 // function to build out demographic box with sample data
 
 function buildDemo(info){
-    d3.json("/samples.json").then((meta) => {
+    d3.json("samples.json").then((meta) => {
 
         console.log("*** buildDemo function running ***"); // Tell console the function is running
         
@@ -52,7 +52,7 @@ function buildDemo(info){
     };
 
 function buildPlots(info){
-    d3.json("/samples.json").then((meta) => {
+    d3.json("samples.json").then((meta) => {
 
         console.log("*** buildPlots function running ***");
         console.log(`buildPlots on ${info}`);
@@ -126,7 +126,7 @@ function buildPlots(info){
 };
 
 function buildGuage(info) {
-    d3.json("/samples.json").then((meta) => {
+    d3.json("samples.json").then((meta) => {
         console.log("*** buildGuage function running ***");
         
         var selectedData = meta.metadata.filter(x => x.id === parseInt(info));
@@ -178,7 +178,7 @@ function init() {
     var select = d3.select("#selDataset");
 
     // Use list of names to populate options
-    d3.json("/samples.json").then((navel) => {
+    d3.json("samples.json").then((navel) => {
         
         console.log("*** init function running ***"); // Tell console the function is running
         var names = navel.names;
