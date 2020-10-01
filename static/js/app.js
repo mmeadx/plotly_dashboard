@@ -102,7 +102,7 @@ function buildPlots(info){
             type: "bar",
             orientation: "h",
             marker: {
-                color: "#FFA84C"
+                color: "#FFA85C"
             }
         };
 
