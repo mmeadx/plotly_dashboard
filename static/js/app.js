@@ -7,6 +7,9 @@ console.log("Test: app.js"); //Make sure console is connected
 
 
 
+// ------------------------- START OF ACTUAL CODE
+
+
 // EVENT HANDLER
 // Install Event Handler to grab dataset value
 
@@ -19,6 +22,8 @@ function updateAll() {
 
     console.log("***---***---***"); // Will run when new dropdown item is selected
     console.log("*** updateAll Function Running ***"); // Tell console the function is running
+
+    // Pass dataset onto functions
     buildDemo(dataset);
     buildPlots(dataset);
     buildGuage(dataset);
@@ -45,16 +50,20 @@ function buildDemo(info){
         // Clear any existing info in panel
         demoPanel.html("");
 
+        // Iterate through selectedData object to get key/value pairs
         Object.entries(selectedData[0]).forEach(([key, value]) => {
             demoPanel.append("h6").text(`${key}:${value}`);
         })
     });
     };
 
+// BUILD CHARTS FUNCTION 
+// function to build out charts with specific sample data
+
 function buildPlots(info){
     d3.json("samples.json").then((meta) => {
 
-        console.log("*** buildPlots function running ***");
+        console.log("*** buildPlots function running ***"); // Will run when new dropdown item is selected
         console.log(`buildPlots on ${info}`);
 
         // Grab selected Dataset from samples using Subject ID No. from dropdown
@@ -120,20 +129,25 @@ function buildPlots(info){
 
         Plotly.newPlot("bar", barData, barLayout);
 
-
     })
 
     
 };
 
+
+// BUILD GUAGE FUNCTION -- EXTRA
+// function to build out guage with specific sample data wash frequency
+
 function buildGuage(info) {
     d3.json("samples.json").then((meta) => {
-        console.log("*** buildGuage function running ***");
+        console.log("*** buildGuage function running ***"); 
         
         var selectedData = meta.metadata.filter(x => x.id === parseInt(info));
 
         var wfreq = selectedData[0].wfreq;
-        console.log(`WASH FREQUENCY OF : ${wfreq}`);
+        console.log(`WASH FREQUENCY OF : ${wfreq}`); 
+
+        // Code mostly copied from https://plotly.com/javascript/indicator/
 
         var data = [
             {
@@ -172,6 +186,7 @@ function buildGuage(info) {
 }
 
 // INITIALIZE FUNCTION
+// Code will run when you enter the page
 
 function init() {
 
@@ -193,7 +208,7 @@ function init() {
             select.append("option").text(name).property("value", name); 
         });
 
-        // Initialize first sample data to build first plots
+        // Initialize first sample data to build initial charts
         var firstData = names[0];
         buildDemo(firstData);
         buildPlots(firstData);
